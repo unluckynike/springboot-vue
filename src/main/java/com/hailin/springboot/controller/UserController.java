@@ -43,32 +43,40 @@ public class UserController {
 
     // 新增或者更新
     @PostMapping
-    public boolean save(@RequestBody User user) {
-        return userService.saveOrUpdate(user);
+    public Result save(@RequestBody User user) {
+        return Result.sucess(userService.saveOrUpdate(user));
     }
 
     @DeleteMapping("/{id}")
-    public Boolean delete(@PathVariable Integer id) {
-        return userService.removeById(id);
+    public Result delete(@PathVariable Integer id) {
+        return Result.sucess(userService.removeById(id));
     }
 
     @PostMapping("/del/batch")
-    public boolean deleteBatch(@RequestBody List<Integer> ids) {
-        return userService.removeByIds(ids);
+    public Result deleteBatch(@RequestBody List<Integer> ids) {
+        return Result.sucess(userService.removeByIds(ids));
     }
 
     @GetMapping
-    public List<User> findAll() {
-        return userService.list();
+    public Result findAll() {
+        return Result.sucess(userService.list());
     }
 
     @GetMapping("/{id}")
-    public User findOne(@PathVariable Integer id) {
-        return userService.getById(id);
+    public Result findOne(@PathVariable Integer id) {
+        return Result.sucess(userService.getById(id));
+    }
+
+    //获取个人信息
+    @GetMapping("/username/{username}")
+    public Result findOne(@PathVariable String username) {
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("username",username);
+        return Result.sucess(userService.getOne(queryWrapper));
     }
 
     @GetMapping("/page")
-    public Page<User> findPage(@RequestParam Integer pageNum,
+    public Result findPage(@RequestParam Integer pageNum,
                                @RequestParam Integer pageSize,
                                @RequestParam(defaultValue = "") String username,
                                @RequestParam(defaultValue = "") String email,
@@ -84,7 +92,7 @@ public class UserController {
         if (!"".equals(address)) {
             queryWrapper.like("address", address);
         }
-        return userService.page(new Page<>(pageNum, pageSize), queryWrapper);
+        return Result.sucess(userService.page(new Page<>(pageNum, pageSize), queryWrapper));
     }
 
 
@@ -150,7 +158,7 @@ public class UserController {
      * @throws IOException
      */
     @PostMapping("/import")
-    public Boolean imp(MultipartFile file) throws IOException {
+    public Result imp(MultipartFile file) throws IOException {
         InputStream inputStream=file.getInputStream();
         ExcelReader reader=ExcelUtil.getReader(inputStream);
 //        List<User> list=reader.readAll(User.class);
@@ -171,7 +179,7 @@ public class UserController {
         }
 
         userService.saveBatch(users);
-        return true;
+        return Result.sucess(true);
     }
 
 }
