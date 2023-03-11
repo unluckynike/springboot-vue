@@ -8,8 +8,12 @@
         <el-breadcrumb-item>{{currentPathName}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <el-dropdown style="width: 70px; cursor: pointer">
-      <span>王小虎</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
+    <el-dropdown style="width: 100px; cursor: pointer">
+      <div  style="display: inline-block">
+        <img :src="user.avatarUrl" alt=""
+             style="width: 30px; border-radius: 50%; position: relative; top: 10px; right: 5px">
+        <span>{{user.nickname}}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
+      </div>
       <el-dropdown-menu slot="dropdown" style="width: 100px; text-align: center">
         <el-dropdown-item style="font-size: 14px; padding: 5px 0">个人信息</el-dropdown-item>
         <el-dropdown-item style="font-size: 14px; padding: 5px 0">
@@ -31,6 +35,11 @@ export default {
   computed: {
     currentPathName () {
       return this.$store.state.currentPathName;　　//需要监听的数据
+    }
+  },
+  data(){
+    return{
+      user:localStorage.getItem("user")?JSON.parse(localStorage.getItem("user")):{}
     }
   },
   watch: {

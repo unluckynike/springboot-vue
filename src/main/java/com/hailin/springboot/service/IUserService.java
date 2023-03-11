@@ -3,6 +3,7 @@ package com.hailin.springboot.service;
 import com.hailin.springboot.controller.dto.UserDTO;
 import com.hailin.springboot.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hailin.springboot.exception.ServiceException;
 
 /**
  * <p>
@@ -13,5 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-03-09
  */
 public interface IUserService extends IService<User> {
-    boolean login(UserDTO userDTO);
+    UserDTO login(UserDTO userDTO);
 }

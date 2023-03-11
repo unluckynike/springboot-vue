@@ -8,8 +8,11 @@ import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hailin.springboot.common.Constants;
+import com.hailin.springboot.common.Result;
 import com.hailin.springboot.controller.dto.UserDTO;
 import com.hailin.springboot.entity.User;
+import com.hailin.springboot.exception.ServiceException;
 import com.hailin.springboot.service.IUserService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -86,13 +89,14 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public boolean login(@RequestBody UserDTO userDTO){
+    public Result login(@RequestBody UserDTO userDTO){
         String username=userDTO.getUsername();
         String password=userDTO.getPassword();
         if (StrUtil.isBlank(username)||StrUtil.isBlank(password)){
-            return false;
+            return Result.error(Constants.CODE_400,"参数错误");
         }
-        return userService.login(userDTO);
+        Object dto = userService.login(userDTO);
+        return Result.sucess(dto);
     }
 
     /**
