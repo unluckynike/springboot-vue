@@ -99,6 +99,18 @@ public class UserController {
         return Result.sucess(dto);
     }
 
+
+    @PostMapping("/register")
+    public Result register(@RequestBody UserDTO userDTO){
+        String username= userDTO.getUsername();
+        String password=userDTO.getPassword();
+        String nickname=userDTO.getNickname();
+        if (StrUtil.isBlank(username)||StrUtil.isBlank(password)||StrUtil.isBlank(nickname)){
+            return Result.error(Constants.CODE_400,"参数错误");
+        }
+        return Result.sucess(userService.register(userDTO));
+    }
+
     /**
      * 导出
      * @param response

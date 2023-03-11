@@ -49,6 +49,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         return one;
     }
 
+    @Override
+    public User register(UserDTO userDTO) {
+        User one = getUserInfo(userDTO);
+        if (one == null) {
+            one = new User();
+            BeanUtil.copyProperties(userDTO, one, true);
+            save(one);  // 把 copy完之后的用户对象存储到数据库
+        } else {
+            throw new ServiceException(Constants.CODE_600, "用户已存在");
+        }
+        return one;
+    }
 
 
 
