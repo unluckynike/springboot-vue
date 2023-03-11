@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class SpringbootApplication {
 
     public static void main(String[] args) {
-          //start
         SpringApplication.run(SpringbootApplication.class, args);
 
     }
