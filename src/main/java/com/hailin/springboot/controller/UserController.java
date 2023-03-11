@@ -2,11 +2,13 @@ package com.hailin.springboot.controller;
 
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hailin.springboot.controller.dto.UserDTO;
 import com.hailin.springboot.entity.User;
 import com.hailin.springboot.service.IUserService;
 import org.springframework.web.bind.annotation.*;
@@ -82,6 +84,16 @@ public class UserController {
         return userService.page(new Page<>(pageNum, pageSize), queryWrapper);
     }
 
+
+    @PostMapping("/login")
+    public boolean login(@RequestBody UserDTO userDTO){
+        String username=userDTO.getUsername();
+        String password=userDTO.getPassword();
+        if (StrUtil.isBlank(username)||StrUtil.isBlank(password)){
+            return false;
+        }
+        return userService.login(userDTO);
+    }
 
     /**
      * 导出
