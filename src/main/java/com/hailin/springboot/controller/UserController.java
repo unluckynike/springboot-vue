@@ -44,27 +44,27 @@ public class UserController {
     // 新增或者更新
     @PostMapping
     public Result save(@RequestBody User user) {
-        return Result.sucess(userService.saveOrUpdate(user));
+        return Result.success(userService.saveOrUpdate(user));
     }
 
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Integer id) {
-        return Result.sucess(userService.removeById(id));
+        return Result.success(userService.removeById(id));
     }
 
     @PostMapping("/del/batch")
     public Result deleteBatch(@RequestBody List<Integer> ids) {
-        return Result.sucess(userService.removeByIds(ids));
+        return Result.success(userService.removeByIds(ids));
     }
 
     @GetMapping
     public Result findAll() {
-        return Result.sucess(userService.list());
+        return Result.success(userService.list());
     }
 
     @GetMapping("/{id}")
     public Result findOne(@PathVariable Integer id) {
-        return Result.sucess(userService.getById(id));
+        return Result.success(userService.getById(id));
     }
 
     //获取个人信息
@@ -72,7 +72,7 @@ public class UserController {
     public Result findOne(@PathVariable String username) {
         QueryWrapper<User> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("username",username);
-        return Result.sucess(userService.getOne(queryWrapper));
+        return Result.success(userService.getOne(queryWrapper));
     }
 
     @GetMapping("/page")
@@ -92,7 +92,7 @@ public class UserController {
         if (!"".equals(address)) {
             queryWrapper.like("address", address);
         }
-        return Result.sucess(userService.page(new Page<>(pageNum, pageSize), queryWrapper));
+        return Result.success(userService.page(new Page<>(pageNum, pageSize), queryWrapper));
     }
 
 
@@ -104,7 +104,7 @@ public class UserController {
             return Result.error(Constants.CODE_400,"参数错误");
         }
         Object dto = userService.login(userDTO);
-        return Result.sucess(dto);
+        return Result.success(dto);
     }
 
 
@@ -116,7 +116,7 @@ public class UserController {
         if (StrUtil.isBlank(username)||StrUtil.isBlank(password)||StrUtil.isBlank(nickname)){
             return Result.error(Constants.CODE_400,"参数错误");
         }
-        return Result.sucess(userService.register(userDTO));
+        return Result.success(userService.register(userDTO));
     }
 
     /**
@@ -179,7 +179,7 @@ public class UserController {
         }
 
         userService.saveBatch(users);
-        return Result.sucess(true);
+        return Result.success(true);
     }
 
 }
